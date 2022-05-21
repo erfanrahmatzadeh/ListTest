@@ -17,7 +17,8 @@ namespace amirtest2
                 if (value != _name)
                 {
                     _name = value;
-                    OnPropertyChanged("name changed");
+                    if (PropertyChanged != null)
+                        OnPropertyChanged("name changed");
                 }
             }
         }
@@ -30,7 +31,8 @@ namespace amirtest2
                 if (value != _age)
                 {
                     _age = value;
-                    OnPropertyChanged("age changed");
+                    if (PropertyChanged != null)
+                        OnPropertyChanged("age changed");
                 }
             }
         }
@@ -43,7 +45,8 @@ namespace amirtest2
                 if (value != _phone)
                 {
                     _phone = value;
-                    OnPropertyChanged("phone changed");
+                    if(PropertyChanged != null)
+                        OnPropertyChanged("phone changed");
                 }
             }
         }

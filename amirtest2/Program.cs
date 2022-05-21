@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace amirtest2
 {
@@ -23,22 +25,38 @@ namespace amirtest2
                 item.age = 20;
                 item.name = "erfan";
             }
+            
+            
+
         }
         public ObservableCollection<testmodel> List { get { return list; } }
 
         public void Clear() { list.Clear(); }
 
-        private static void listChanged(object sender, NotifyCollectionChangedEventArgs args)
+        private static void listChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Console.WriteLine("this shit is working");
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach (testmodel item in e.OldItems)
+                {
+                    //Removed items
+                    item.PropertyChanged -= EntityViewModelPropertyChanged;
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (testmodel item in e.NewItems)
+                {
+                    //Added items
+                    item.PropertyChanged += EntityViewModelPropertyChanged;
+                }
+            }            
         }
 
-        public static void CollectionChangedMethod(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Replace)
-            {
-                Console.WriteLine("this shit is working");
-            }
+        public static void EntityViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {            
+            Console.WriteLine(e.PropertyName);
         }
-    }
+      
+    }    
 }
